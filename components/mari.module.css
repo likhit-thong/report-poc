@@ -1,0 +1,17 @@
+.flex_container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  width: 100%;
+}
+
+.flex_container .search_bar {
+  line-height: 64px;
+  margin: 5px;
+  padding: 10px;
+}
+
+.flex_container .graph_content {
+  margin: 5px;
+  padding: 34px;
+}

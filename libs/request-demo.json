@@ -1,0 +1,162 @@
+{
+  "aggs": {
+    "3": {
+      "date_histogram": {
+        "field": "@timestamp",
+        "calendar_interval": "1m",
+        "time_zone": "Asia/Bangkok",
+        "min_doc_count": 1
+      },
+      "aggs": {
+        "2": {
+          "terms": {
+            "field": "channel.keyword",
+            "order": {
+              "_count": "desc"
+            },
+            "size": 5
+          }
+        }
+      }
+    }
+  },
+  "size": 0,
+  "_source": {
+    "excludes": []
+  },
+  "stored_fields": [
+    "*"
+  ],
+  "script_fields": {},
+  "docvalue_fields": [
+    {
+      "field": "@timestamp",
+      "format": "date_time"
+    },
+    {
+      "field": "data_ANI.TIMESTAMP",
+      "format": "date_time"
+    },
+    {
+      "field": "end_time",
+      "format": "date_time"
+    },
+    {
+      "field": "requestMessages.parameters.date-time.endDate",
+      "format": "date_time"
+    },
+    {
+      "field": "requestMessages.parameters.date-time.endDateTime",
+      "format": "date_time"
+    },
+    {
+      "field": "requestMessages.parameters.date-time.endTime",
+      "format": "date_time"
+    },
+    {
+      "field": "requestMessages.parameters.date-time.startDate",
+      "format": "date_time"
+    },
+    {
+      "field": "requestMessages.parameters.date-time.startDateTime",
+      "format": "date_time"
+    },
+    {
+      "field": "requestMessages.parameters.date-time.startTime",
+      "format": "date_time"
+    },
+    {
+      "field": "requestMessages.parameters.timeperiod.endTime",
+      "format": "date_time"
+    },
+    {
+      "field": "requestMessages.parameters.timeperiod.startTime",
+      "format": "date_time"
+    },
+    {
+      "field": "requestMessages.payload.user.lastSeen",
+      "format": "date_time"
+    },
+    {
+      "field": "start_time",
+      "format": "date_time"
+    },
+    {
+      "field": "timestamp",
+      "format": "date_time"
+    }
+  ],
+  "query": {
+    "bool": {
+      "must": [],
+      "filter": [
+        {
+          "match_all": {}
+        },
+        {
+          "match_all": {}
+        },
+        {
+          "bool": {
+            "should": [
+              {
+                "match_phrase": {
+                  "channel.keyword": "ivr"
+                }
+              },
+              {
+                "match_phrase": {
+                  "channel.keyword": "web-chat"
+                }
+              },
+              {
+                "match_phrase": {
+                  "channel.keyword": "facebook"
+                }
+              },
+              {
+                "match_phrase": {
+                  "channel.keyword": "line"
+                }
+              }
+            ],
+            "minimum_should_match": 1
+          }
+        },
+        {
+          "match_phrase": {
+            "action": {
+              "query": "conversation"
+            }
+          }
+        },
+        {
+          "match_phrase": {
+            "labels.env": {
+              "query": "prod"
+            }
+          }
+        },
+        {
+          "range": {
+            "duration": {
+              "gte": 4000,
+              "lt": 1000000
+            }
+          }
+        },
+        {
+          "range": {
+            "timestamp": {
+              "format": "strict_date_optional_time",
+              "gte": "2021-09-03T01:40:45.623Z",
+              "lte": "2021-09-03T02:40:45.623Z"
+            }
+          }
+        }
+      ],
+      "should": [],
+      "must_not": []
+    }
+  }
+}
